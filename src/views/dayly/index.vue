@@ -31,9 +31,6 @@
                                     <van-icon name="eye-o" size="24" />
                                 </van-badge>
                             </van-col>
-                            <!-- <van-col span="12" class="col">
-                                {{ props.value.info.time }}
-                            </van-col> -->
                         </van-row>
                     </p>
                     <p class="time">
@@ -48,14 +45,12 @@
 <script>
 // vue-waterfull-easy
 import vueWaterfallEasy from "vue-waterfall-easy";
-import homeApi from "@/api/home";
+import daylyApi from "@/api/dayly";
 export default {
     name: "Dayly",
     data() {
         return {
-            //图片页码
-            page: 1,
-            //图片数量
+            // 请求数量
             count: 10,
             // 图片数组
             imgsArr: []
@@ -82,13 +77,14 @@ export default {
     },
     methods: {
         fetchData() {
-            homeApi
-                .getData(this.page, this.count)
+            daylyApi
+                .getData(this.count)
                 .then(res => {
                     let data = "";
                     let arr = [];
                     if (res.status == 200) {
                         data = res.data.data;
+                        console.log(res);
                         for (let key in data) {
                             let timeStr = data[key].createdAt;
                             arr.push({
@@ -100,10 +96,12 @@ export default {
                                     time: timeStr.split(" ")[0]
                                 }
                             });
+                            // console.log(data[key]);
+                            // 图片数组增量更新
                         }
                         this.imgsArr = this.imgsArr.concat(arr);
                         // 页码加一
-                        this.page++;
+                        this.count += this.count;
                     }
                 })
                 .catch(msg => console.log(msg));
