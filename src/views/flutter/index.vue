@@ -24,17 +24,16 @@
 import ItemInfo from "@/components/ItemInfo";
 // vue-waterfull-easy
 import vueWaterfallEasy from "vue-waterfall-easy";
-import homeApi from "@/api/home";
+import flutterApi from "@/api/flutter";
 export default {
     name: "Dayly",
     data() {
         return {
-            //图片页码
             page: 1,
-            //图片数量
+            // 请求数量
             count: 10,
             // 图片数组
-            imgsArr: []
+            imgsArr: [],
         };
     },
     computed: {
@@ -47,7 +46,7 @@ export default {
         // 导航显示/隐藏状态
         menuShow() {
             return this.$store.state.status.menuShow;
-        }
+        },
     },
     created() {
         // 发送请求获取图片
@@ -59,25 +58,25 @@ export default {
     },
     methods: {
         fetchData() {
-            homeApi
+            flutterApi
                 .getData(this.page, this.count)
-                .then(res => {
-                    let data = res.data.data;
-
+                .then((res) => {
+                    let data = "";
                     let arr = [];
                     if (res.status == 200) {
+                        data = res.data.data;
                         for (let key in data) {
                             let timeStr = data[key].createdAt;
                             arr.push({
-                                src: data[key].url,
+                                src: data[key].images,
                                 // 配置跳转链接
-                                href: `/home/${data[key]._id}`,
+                                href: `/flutter/article/${data[key]._id}`,
                                 info: {
                                     desc: data[key].desc,
                                     likes: data[key].likeCounts,
                                     views: data[key].views,
-                                    time: timeStr.split(" ")[0]
-                                }
+                                    time: timeStr.split(" ")[0],
+                                },
                             });
                         }
                         this.imgsArr = this.imgsArr.concat(arr);
@@ -85,13 +84,14 @@ export default {
                         this.page++;
                     }
                 })
-                .catch(msg => console.log(msg));
+                .catch((msg) => console.log(msg));
         },
         // 瀑布流触底触发事件
         getData() {
+            //request.get(this.imgsArr.href).then(data=>console.log(data))
             this.fetchData();
-        }
-    }
+        },
+    },
 };
 </script>
 <style lang="scss" scoped>
@@ -101,26 +101,26 @@ export default {
 .active {
     transform: translateX(246px);
 }
-// .img-info {
-//     p {
-//         margin: 0;
-//     }
-//     .desc {
-//         font-size: 12px;
-//         color: #656161;
-//         line-height: 1.25;
-//         padding: 10px;
-//     }
-//     .info {
-//         padding: 5px;
-//         .col {
-//             padding-left: 5px;
-//         }
-//     }
-//     .time {
-//         padding: 5px 10px;
-//         font-size: 12.5px;
-//         color: #656161;
-//     }
-// }
+.img-info {
+    p {
+        margin: 0;
+    }
+    .desc {
+        font-size: 12px;
+        color: #656161;
+        line-height: 1.25;
+        padding: 10px;
+    }
+    .info {
+        padding: 5px;
+        .col {
+            padding-left: 5px;
+        }
+    }
+    .time {
+        padding: 5px 10px;
+        font-size: 12.5px;
+        color: #656161;
+    }
+}
 </style>

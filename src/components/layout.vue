@@ -35,7 +35,7 @@ export default {
 <style lang="scss" scoped>
 #mask {
     background-color: rgba($color: #000000, $alpha: 0.5);
-    z-index: 1;
+    z-index: 9998;
     position: absolute;
     top: 0;
     bottom: 0;

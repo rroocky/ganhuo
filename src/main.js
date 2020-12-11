@@ -6,9 +6,13 @@ import store from "./store";
 import Vant from 'vant';
 import 'vant/lib/index.css';
 
+// markdown 插件
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 
 Vue.use(Vant);
+Vue.use(mavonEditor)
 
 Vue.config.productionTip = false;
 

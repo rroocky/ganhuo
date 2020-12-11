@@ -5,6 +5,8 @@
                 :imgsArr="imgsArr"
                 :height="imgboxHeight"
                 @scrollReachBottom="getData"
+                :isRouterLink="true"
+                linkRange="img"
             >
                 <div class="img-info" slot-scope="props">
                     <!-- props.index 组件绑定数组的下标 -->
@@ -53,7 +55,7 @@ export default {
             // 请求数量
             count: 10,
             // 图片数组
-            imgsArr: []
+            imgsArr: [],
         };
     },
     computed: {
@@ -66,20 +68,20 @@ export default {
         // 导航显示/隐藏状态
         menuShow() {
             return this.$store.state.status.menuShow;
-        }
+        },
     },
     created() {
         // 发送请求获取图片
         this.fetchData();
     },
     components: {
-        vueWaterfallEasy
+        vueWaterfallEasy,
     },
     methods: {
         fetchData() {
             daylyApi
                 .getData(this.count)
-                .then(res => {
+                .then((res) => {
                     let data = "";
                     let arr = [];
                     if (res.status == 200) {
@@ -89,33 +91,33 @@ export default {
                             let timeStr = data[key].createdAt;
                             arr.push({
                                 src: data[key].url,
+                                // 配置跳转链接
+                                href: `/dayly/${data[key]._id}`,
                                 info: {
                                     desc: data[key].desc,
                                     likes: data[key].likeCounts,
                                     views: data[key].views,
-                                    time: timeStr.split(" ")[0]
-                                }
+                                    time: timeStr.split(" ")[0],
+                                },
                             });
-                            // console.log(data[key]);
-                            // 图片数组增量更新
+                            
                         }
                         this.imgsArr = this.imgsArr.concat(arr);
                         // 页码加一
                         this.count += this.count;
                     }
                 })
-                .catch(msg => console.log(msg));
+                .catch((msg) => console.log(msg));
         },
         // 瀑布流触底触发事件
         getData() {
             this.fetchData();
-        }
-    }
+        },
+    },
 };
 </script>
 <style lang="scss" scoped>
 #imgbox {
-    padding-top: 46px;
     transition: 0.3s;
 }
 .active {

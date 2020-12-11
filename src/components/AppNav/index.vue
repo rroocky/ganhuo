@@ -11,16 +11,17 @@
                 <div class="userName">将军膀</div>
             </div>
             <ul class="nav">
-                <li
-                    v-for="item in menus"
-                    :key="item.id"
-                    @click="navHandle(navArr[item.text].name)"
-                >
-                    <router-link :to="item.text" active-class="active-link">
-                        <div class="icon">
-                            <van-icon :name="navArr[item.text].icon" />
+                <li v-for="item in menus" :key="item.id">
+                    <router-link
+                        :to="'/' + item.text"
+                        active-class="active-link"
+                    >
+                        <div @click="navHandle(navArr[item.text].name)">
+                            <div class="icon">
+                                <van-icon :name="navArr[item.text].icon" />
+                            </div>
+                            {{ navArr[item.text].name }}
                         </div>
-                        {{ navArr[item.text].name }}
                     </router-link>
                 </li>
             </ul>
@@ -33,14 +34,14 @@ const navArr = {
     dayly: { name: "每日推荐", icon: "hot" },
     android: { name: "android", icon: "graphic" },
     ios: { name: "ios", icon: "graphic" },
-    web: { name: "前端工程师", icon: "graphic" }
+    flutter: { name: "Flutter", icon: "graphic" },
 };
 
 export default {
     data() {
         return {
             status: this.$store.state.status,
-            navArr
+            navArr,
         };
     },
     computed: {
@@ -49,7 +50,7 @@ export default {
         },
         menuShow() {
             return this.status.menuShow;
-        }
+        },
     },
     methods: {
         // 导航的点击事件
@@ -58,8 +59,8 @@ export default {
             this.$store.commit("updateTitle", newTitle);
             // 关闭导航
             this.$store.commit("UPDATE_MENU_SHOW");
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -72,7 +73,7 @@ export default {
     width: 246px;
     background-color: #2c3e50;
     transition: 0.3s;
-    z-index: 999;
+    z-index: 99999;
     .userImage {
         text-align: center;
         padding: 15px 0;

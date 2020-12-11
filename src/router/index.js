@@ -5,7 +5,10 @@ import Home from "@/views/home"
 import Dayly from "@/views/dayly"
 import Android from "@/views/android"
 import Ios from "@/views/ios"
-import Web from "@/views/web"
+import Flutter from "@/views/flutter"
+import Girls from "@/views/article/girls"
+import TecArticle from "@/views/article/techArticle"
+import Err from "@/views/err"
 
 Vue.use(VueRouter);
 
@@ -22,7 +25,11 @@ const routes = [
                 meta: {
                     title: "首页",
                     keepAlive: true
-                },
+                }
+            },
+            {
+                path: '/home/:id',
+                component: Girls
             }
         ]
     },
@@ -35,22 +42,33 @@ const routes = [
                 path: '/',
                 component: Dayly,
                 meta: {
-                    title: "首页"
+                    title: "每日推荐",
+                    keepAlive: true
                 }
+            },
+            {
+                path: '/dayly/:id',
+                component: Girls
             }
         ]
     },
     {
-        path: "/web",
-        name: "web",
+        path: "/flutter",
+        name: "flutter",
         component: Layout,
         children: [
             {
                 path: '/',
-                component: Web,
+                component: Flutter,
                 meta: {
-                    title: "首页"
+                    title: "Flutter",
+                    keepAlive: true
                 }
+            },
+            // flutter技术文章详情页
+            {
+                path: 'article/:id',
+                component: TecArticle
             }
         ]
     },
@@ -63,8 +81,14 @@ const routes = [
                 path: '/',
                 component: Android,
                 meta: {
-                    title: "首页"
+                    title: "Android",
+                    keepAlive: true
                 }
+            },
+            // 安卓技术文章详情页
+            {
+                path: 'article/:id',
+                component: TecArticle
             }
         ]
     },
@@ -77,11 +101,23 @@ const routes = [
                 path: '/',
                 component: Ios,
                 meta: {
-                    title: "首页"
+                    title: "Ios",
+                    keepAlive: true
                 }
+            },
+            // ios技术文章详情页
+            {
+                path: 'article/:id',
+                component: TecArticle
             }
         ]
     },
+    {
+        // 404
+        path: "*",
+        name: 'error',
+        component: Err
+    }
 ];
 
 const router = new VueRouter({
